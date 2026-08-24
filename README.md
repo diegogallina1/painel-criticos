@@ -5,7 +5,7 @@ Cole um texto — ou envie um arquivo `.docx`, `.pdf`, `.txt` ou `.md` — e rec
 🔗 **Site público:** https://painel.dgo.fi (uso gratuito, 5 análises por dia por IP)
 📦 **Este repositório:** código aberto, pra quem quiser rodar localmente com a própria chave de API e sem limite de uso.
 
-Inspirado pelo trabalho do [Pedro Burgos](https://br.linkedin.com/in/pedromburgos) (Co.Inteligência) sobre IA aplicada a jornalismo e criação de conteúdo.
+Inspirado pelo trabalho do [Pedro Burgos](https://br.linkedin.com/in/pedromburgos) sobre IA aplicada a jornalismo e criação de conteúdo.
 
 ## Como funciona
 
