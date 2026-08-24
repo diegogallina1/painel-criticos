@@ -130,7 +130,7 @@ export default function Home() {
       setArquivoNome(dados.nomeArquivo);
       if (dados.truncado) {
         setAviso(
-          `O arquivo tinha mais texto do que o limite de ${MAX_CARACTERES.toLocaleString("pt-BR")} caracteres — cortei o excedente pra você poder continuar.`
+          `O arquivo tinha mais texto do que o limite de ${MAX_CARACTERES.toLocaleString("pt-BR")} caracteres, então cortei o excedente pra você poder continuar.`
         );
       }
     } catch (err) {
@@ -221,7 +221,7 @@ export default function Home() {
         </button>
         <h1>Painel de Leitores Sintéticos</h1>
         <p>Cole um texto (ou envie um arquivo) e veja como quatro leitores bem diferentes reagem a ele.</p>
-        <p className="limite-diario">⏳ {LIMITE_DIARIO_ANALISES} análises grátis por dia. Volte amanhã pra mais.</p>
+        <p className="limite-diario">⏳ {LIMITE_DIARIO_ANALISES} análises grátis por dia.</p>
         <button type="button" className="botao-exemplo" onClick={verExemplo}>
           👀 Ver um exemplo de resultado
         </button>
@@ -311,7 +311,7 @@ export default function Home() {
         <div className="linha-acao">
           <span className={excedeLimite ? "contagem contagem-excedida" : "contagem"}>
             {texto.trim() ? texto.trim().split(/\s+/).filter(Boolean).length : 0} palavras
-            {excedeLimite && ` — passou do limite de ${MAX_CARACTERES.toLocaleString("pt-BR")} caracteres, corte um pouco`}
+            {excedeLimite && `, passou do limite de ${MAX_CARACTERES.toLocaleString("pt-BR")} caracteres, corte um pouco`}
           </span>
           <button className="botao-reunir" onClick={reunirPainel} disabled={!texto.trim() || carregando || extraindo || excedeLimite}>
             {carregando ? "Reunindo o painel..." : "Reunir o painel"}
@@ -324,7 +324,7 @@ export default function Home() {
 
       {exemploAtivo && resultado && (
         <div className="badge-exemplo">
-          🔎 Isto é um exemplo ilustrativo, já pronto — não usa a sua cota diária. Cole seu próprio texto acima pra rodar de verdade.
+          🔎 Isto é um exemplo ilustrativo, já pronto, e não usa a sua cota diária. Cole seu próprio texto acima pra rodar de verdade.
         </div>
       )}
 
@@ -423,12 +423,12 @@ export default function Home() {
       </section>
 
       <footer className="rodape-repo">
-        <p>Painel de Leitores Sintéticos — as reações são geradas por IA e não substituem leitores de verdade.</p>
+        <p>Painel de Leitores Sintéticos. As reações são geradas por IA e não substituem leitores de verdade.</p>
         <p>🔒 Seu texto não é armazenado: é enviado direto pra IA gerar a análise e descartado logo em seguida. A única coisa que fica salva, e só se você escolher enviar, é o conteúdo da caixa de sugestões acima.</p>
         <p>
           Uso gratuito limitado a {LIMITE_DIARIO_ANALISES} análises por dia. Código aberto no{" "}
-          <a href="https://github.com/diegogallina1/painel-criticos" target="_blank" rel="noopener noreferrer">GitHub</a>{" "}
-          — rode localmente com sua própria chave de API se quiser usar sem limite.
+          <a href="https://github.com/diegogallina1/painel-criticos" target="_blank" rel="noopener noreferrer">GitHub</a>.{" "}
+          Rode localmente com sua própria chave de API se quiser usar sem limite.
         </p>
       </footer>
     </div>

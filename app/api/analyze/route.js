@@ -48,6 +48,8 @@ Para cada persona, dê uma nota de 0 a 10 (nota inteira, coerente com a reação
 
 Também escreva um "veredito" de uma frase só, resumindo o consenso (ou a divergência) entre as quatro reações.
 
+Não use travessões (— ou –) em nenhum texto que você escrever. Prefira vírgula, dois-pontos, parênteses ou ponto final no lugar deles.
+
 Responda APENAS com um JSON válido, sem markdown, sem crases, sem texto antes ou depois, seguindo exatamente este formato:
 
 ${schema}`;
