@@ -673,3 +673,77 @@ html[data-tema="escuro"] .sucesso {
   color: var(--destaque);
   text-decoration: underline;
 }
+
+.admin-login {
+  max-width: 420px;
+  margin: 0 auto;
+}
+
+.admin-barra {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.admin-barra h3 {
+  margin: 0;
+}
+
+.admin-acoes {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-vazio {
+  color: var(--tinta-suave);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.admin-lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.admin-item {
+  border: 1px solid var(--linha);
+  border-radius: 12px;
+  padding: 14px 16px;
+  background: var(--papel);
+}
+
+.admin-item-topo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+}
+
+.admin-item-nome {
+  font-weight: 600;
+  font-size: 0.92rem;
+  color: var(--tinta);
+}
+
+.admin-item-data {
+  font-size: 0.78rem;
+  color: var(--tinta-suave);
+  white-space: nowrap;
+}
+
+.admin-item-mensagem {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--tinta);
+  white-space: pre-wrap;
+  word-break: break-word;
+}
