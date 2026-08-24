@@ -1,0 +1,24 @@
+{
+  "name": "painel-leitores-sinteticos",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.32.1",
+    "@google/genai": "^1.15.0",
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.2",
+    "@vercel/analytics": "^1.4.1",
+    "@vercel/functions": "^1.5.0",
+    "mammoth": "^1.12.1",
+    "next": "^15.5.23",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "unpdf": "^1.8.1"
+  }
+}
