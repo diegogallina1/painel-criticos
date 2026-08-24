@@ -221,7 +221,7 @@ export default function Home() {
         </button>
         <h1>Painel de Leitores Sintéticos</h1>
         <p>Cole um texto (ou envie um arquivo) e veja como quatro leitores bem diferentes reagem a ele.</p>
-        <p className="limite-diario">⏳ {LIMITE_DIARIO_ANALISES} análises grátis por dia (por IP) — volta amanhã pra mais.</p>
+        <p className="limite-diario">⏳ {LIMITE_DIARIO_ANALISES} análises grátis por dia — volta amanhã pra mais.</p>
         <button type="button" className="botao-exemplo" onClick={verExemplo}>
           👀 Ver um exemplo de resultado
         </button>
