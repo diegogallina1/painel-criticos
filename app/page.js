@@ -424,7 +424,7 @@ export default function Home() {
 
       <footer className="rodape-repo">
         <p>Painel de Leitores Sintéticos. As reações são geradas por IA e não substituem leitores de verdade.</p>
-        <p>🔒 Seu texto não é armazenado: é enviado direto pra IA gerar a análise e descartado logo em seguida. A única coisa que fica salva, e só se você escolher enviar, é o conteúdo da caixa de sugestões acima.</p>
+        <p>🔒 Seu texto não é armazenado: é enviado direto pra IA gerar a análise e descartado logo em seguida. O que fica salvo é o seu endereço IP, por até 48 horas, só para contar as análises do dia, e o conteúdo da caixa de sugestões acima, se você escolher enviar.</p>
         <p>
           Uso gratuito limitado a {LIMITE_DIARIO_ANALISES} análises por dia. Código aberto no{" "}
           <a href="https://github.com/diegogallina1/painel-criticos" target="_blank" rel="noopener noreferrer">GitHub</a>.{" "}
