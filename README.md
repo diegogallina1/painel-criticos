@@ -35,7 +35,11 @@ Se `GEMINI_API_KEY` estiver definida, ela tem prioridade sobre `ANTHROPIC_API_KE
 
 O texto que você cola ou envia **não é armazenado**: vai direto pro provedor de IA gerar a análise e é descartado depois. Nada disso fica salvo em banco de dados.
 
-A única exceção é a caixa de "Sugestões" no fim da página — se você escolher escrever e enviar uma sugestão, o nome (opcional) e a mensagem ficam guardados pra eu poder ler. É sempre uma ação explícita sua, nunca automática.
+Duas coisas ficam salvas, e nenhuma delas é o seu texto.
+
+O **seu endereço IP** fica no Redis por cerca de 48 horas, na chave do contador diário, porque é assim que o limite de 5 análises por dia é aplicado. Endereço IP é dado pessoal, e por isso está dito aqui em vez de ficar implícito. Ele é agregado por prefixo /64 no caso de IPv6.
+
+A **caixa de "Sugestões"** no fim da página: se você escolher escrever e enviar uma sugestão, o nome (opcional) e a mensagem ficam guardados pra eu poder ler. É sempre uma ação explícita sua, nunca automática.
 
 ## Estrutura
 

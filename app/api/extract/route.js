@@ -3,8 +3,18 @@ import { extractText, getDocumentProxy } from "unpdf";
 import { verificarLimiteDiario } from "../../../lib/rate-limit";
 import { origemPermitida } from "../../../lib/origin-guard";
 import { MAX_TAMANHO_ARQUIVO, EXTENSOES_ACEITAS, MAX_CARACTERES } from "../../../lib/config";
+import {
+  tamanhoDescomprimidoDoZip,
+  comPrazo,
+  MAX_DESCOMPRIMIDO,
+  MAX_PAGINAS_PDF,
+  MS_LIMITE_PARSE,
+} from "../../../lib/limites-de-arquivo";
 
 export const runtime = "nodejs";
+// Teto de parede explícito. Sem isso vale o padrão da plataforma, e um arquivo
+// que faz o parser rodar por minutos ocupa a função até o limite dela.
+export const maxDuration = 30;
 
 function extensaoDe(nomeArquivo) {
   const i = nomeArquivo.lastIndexOf(".");
@@ -64,13 +74,54 @@ export async function POST(request) {
   const buffer = Buffer.from(await arquivo.arrayBuffer());
   let texto = "";
 
+  // A checagem de tamanho acima mede bytes COMPRIMIDOS, e um .docx é um zip:
+  // conteúdo repetitivo comprime mais de 1000x. Antes de entregar o arquivo ao
+  // parser, lê o tamanho descomprimido declarado no diretório central. É
+  // metadado, não descompressão: medido, 298 microssegundos numa bomba de
+  // 597 KB que declara 300 MB.
+  if (ext === ".docx") {
+    let medida;
+    try {
+      medida = tamanhoDescomprimidoDoZip(buffer);
+    } catch {
+      return Response.json(
+        { erro: `"${nome}" não é um .docx legível.` },
+        { status: 422 }
+      );
+    }
+    if (medida.total > MAX_DESCOMPRIMIDO || medida.maiorEntrada > MAX_DESCOMPRIMIDO) {
+      return Response.json(
+        {
+          erro: `"${nome}" descomprime para ${Math.round(medida.total / 1024 / 1024)} MB, acima do limite de ${Math.round(MAX_DESCOMPRIMIDO / 1024 / 1024)} MB.`,
+        },
+        { status: 400 }
+      );
+    }
+  }
+
   try {
     if (ext === ".docx") {
-      const resultado = await mammoth.extractRawText({ buffer });
+      const resultado = await comPrazo(
+        mammoth.extractRawText({ buffer }),
+        MS_LIMITE_PARSE,
+        "tempo esgotado lendo o .docx"
+      );
       texto = resultado.value;
     } else if (ext === ".pdf") {
       const pdf = await getDocumentProxy(new Uint8Array(buffer));
-      const resultado = await extractText(pdf, { mergePages: true });
+      // numPages é barato e vem do índice do PDF; extractText é que percorre
+      // todas as páginas e aloca um item por operador de texto.
+      if (pdf.numPages > MAX_PAGINAS_PDF) {
+        return Response.json(
+          { erro: `"${nome}" tem ${pdf.numPages} páginas, acima do limite de ${MAX_PAGINAS_PDF}.` },
+          { status: 400 }
+        );
+      }
+      const resultado = await comPrazo(
+        extractText(pdf, { mergePages: true }),
+        MS_LIMITE_PARSE,
+        "tempo esgotado lendo o PDF"
+      );
       texto = resultado.text;
     } else {
       // .txt ou .md

@@ -1,5 +1,6 @@
 import { timingSafeEqual } from "crypto";
 import { redis } from "../../../../lib/redis";
+import { verificarLimiteDiario } from "../../../../lib/rate-limit";
 
 export const runtime = "nodejs";
 
@@ -24,6 +25,23 @@ function extrairToken(request) {
 }
 
 export async function GET(request) {
+  // Redis primeiro, e de propósito: esta era a única rota sem limite de
+  // tentativas, e o 401 saía antes de tocar o banco, então cada palpite errado
+  // no token era grátis para quem tentava. O token é o único ponto de
+  // autorização do sistema inteiro. Aqui o limitador é fail-closed: sem Redis
+  // não há como contar tentativa, e a rota já dependia dele mesmo.
+  if (!redis) {
+    return Response.json({ erro: "Redis não configurado." }, { status: 503 });
+  }
+
+  const { limitado } = await verificarLimiteDiario(request, {
+    prefixo: "admin",
+    requisicoes: 20,
+  });
+  if (limitado) {
+    return Response.json({ erro: "Muitas tentativas. Tente amanhã." }, { status: 429 });
+  }
+
   // Se o token de admin nem foi configurado no servidor, a área fica
   // fechada por padrão (nunca aberta por acidente).
   if (!process.env.PAINEL_ADMIN_TOKEN) {
@@ -34,11 +52,10 @@ export async function GET(request) {
   }
 
   if (!tokenValido(extrairToken(request))) {
+    // Deixa rastro nos Runtime Logs: antes uma tentativa errada não gravava
+    // nada em lugar nenhum.
+    console.warn("[admin/sugestoes] token inválido");
     return Response.json({ erro: "Não autorizado." }, { status: 401 });
-  }
-
-  if (!redis) {
-    return Response.json({ erro: "Redis não configurado." }, { status: 503 });
   }
 
   let brutos = [];

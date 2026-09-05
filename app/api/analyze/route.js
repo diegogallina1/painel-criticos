@@ -66,6 +66,11 @@ async function chamarGemini(prompt) {
     contents: prompt,
     config: {
       responseMimeType: "application/json",
+      // Teto de saída, espelhando o max_tokens do caminho Claude logo abaixo.
+      // Saída é o lado caro da conta em todos os provedores, e quem cola o
+      // texto controla, por instrução, o tamanho do que o modelo escreve. A
+      // resposta esperada são quatro reações curtas, bem abaixo disso.
+      maxOutputTokens: 3000,
     },
   });
 
